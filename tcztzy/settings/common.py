@@ -19,12 +19,15 @@ try:
 except IOError:
     SECRETS = {
         'secret_key': 'a',
-        'superfeedr_creds': ['any@email.com', 'some_string'],
     }
 
 SECRET_KEY = str(SECRETS['secret_key'])
 
 INSTALLED_APPS = [
+    'blog',
+
+    'django_hosts',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -43,12 +46,16 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'tcztzy.urls'
+DEFAULT_HOST = 'blog'
+
+ROOT_HOSTCONF = 'tcztzy.hosts'
+
+ROOT_URLCONF = 'tcztzy.urls.blog'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [str(PROJECT_PACKAGE.joinpath('templates'))],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -72,7 +79,7 @@ DATABASES = {
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
