@@ -97,3 +97,5 @@ db.sqlite3
 
 # PyCharm
 .idea/
+
+blog/settings.json

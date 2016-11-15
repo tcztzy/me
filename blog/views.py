@@ -3,7 +3,8 @@ from django.views.generic.dates import (
     YearArchiveView,
 )
 
-from .models import Entry, Event
+from .models import Entry
+from . import settings
 
 
 class BlogViewMixin(object):
@@ -23,13 +24,15 @@ class BlogViewMixin(object):
     def get_context_data(self, **kwargs):
         context = super(BlogViewMixin, self).get_context_data(**kwargs)
 
-        events_queryset = Event.objects.future()
-        if not self.request.user.is_staff:
-            events_queryset = events_queryset.published()
-
-        context['events'] = events_queryset[:3]
+        if self.is_post() and settings['sidebar_behavior'] < 3 and settings['clear_reading']:
+            settings['sidebar_behavior'] += 3
+        context.update(settings=settings)
 
         return context
+
+    @staticmethod
+    def is_post():
+        return False
 
 
 class BlogArchiveIndexView(BlogViewMixin, ArchiveIndexView):
@@ -49,4 +52,6 @@ class BlogDayArchiveView(BlogViewMixin, DayArchiveView):
 
 
 class BlogDateDetailView(BlogViewMixin, DateDetailView):
-    pass
+    @staticmethod
+    def is_post():
+        return True

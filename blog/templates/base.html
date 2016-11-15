@@ -1,40 +1,28 @@
 <!DOCTYPE html>
-<%
-    var sidebarBehavior;
-    // Clear reading feature. Hide sidebar on article page if the feature is activated
-    if (is_post() && theme.sidebar_behavior < 3 &&
-        ((theme.clear_reading === true && page.clearReading !== false) ||
-        page.clearReading === true)) {
-        sidebarBehavior = theme.sidebar_behavior + 3;
-    }
-    else {
-        sidebarBehavior = theme.sidebar_behavior;
-    }
-%>
 <html lang="{{ lang|default:'zh-cn' }}">
     {% include 'head.html' %}
     <body>
         <div id="blog">
-            <%- partial('_partial/header', {sidebarBehavior: sidebarBehavior}) %>
-            <%- partial('_partial/sidebar', {sidebarBehavior: sidebarBehavior}) %>
-            <%- partial('_partial/post/header-cover', {post: page, sidebarBehavior: sidebarBehavior}) %>
-            <div id="main" data-behavior="<%= sidebarBehavior %>"
-                 class="<%= (page.coverImage ? 'hasCover' : '') %>
-                        <%= (page.coverMeta === 'out' ? 'hasCoverMetaOut' : 'hasCoverMetaIn') %>
-                        <%= (page.coverCaption ? 'hasCoverCaption' : '') %>">
-                <%- body %>
-                <%- partial('_partial/footer', null, {cache: !config.relative_link}) %>
+            {% include 'header.html' %}
+            {% include 'sidebar.html' %}
+            {% include 'post/header-cover.html' %}
+            <div id="main" data-behavior="{{ settings.sidebar_behavior }}"
+                 class="{% if page.coverImage %}hasCover{% endif %}
+                        {% if page.coverMeta == 'out' %}hasCoverMetaOut{% else %}hasCoverMetaIn{% endif %}
+                        {% if page.coverCaption %}hasCoverCaption{% endif %}">
+                {% block body %}{% endblock %}
+                {% include 'footer.html' %}
             </div>
             <% if (is_post()) { %>
-                <div id="bottom-bar" class="post-bottom-bar" data-behavior="<%= sidebarBehavior %>">
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="{{ settings.sidebar_behavior }}">
                     <%- partial('_partial/post/actions', {post: page}) %>
                 </div>
                 <%- partial('_partial/post/share-options', {post: page, sidebarBehavior: sidebarBehavior}) %>
             <% } %>
         </div>
-        <%- partial('_partial/about', null, {cache: !config.relative_link}) %>
-        <%- partial('_partial/search', null, {cache: true}) %>
-        <%- partial('_partial/cover', null, {cache: !config.relative_link}) %>
-        <%- partial('_partial/script', {post: page}) %>
+        {% include 'about.html' %}
+        {% include 'search.html' %}
+        {% include 'cover.html' %}
+        {% include 'script.html' %}
     </body>
 </html>

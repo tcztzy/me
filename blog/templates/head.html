@@ -1,0 +1,54 @@
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="{{ settings.title }}">
+    <title><%= title %></title>
+    <meta name="author" content="{{ settings.author.name }}">
+
+    {% if keywords %}
+    <meta name="keywords" content="{{ keywords }}">
+    {% endif %}
+    {% if settings.favicon %}
+    <link rel="icon" href="/favicon.ico">
+    {% endif %}
+
+    {% if settings.feed and settings.feed.path %}
+    <link rel="alternate" type="application/atom+xml" title="RSS" href="{{ settings.feed.path }}">
+    {% endif %}
+    {% if settings.author.picture %}
+    <meta property="og:image" content="{{ settings.author.picture }}"/>
+    {% endif %}
+    {% comment %}
+    <% if (page.thumbnailImage && page.thumbnailImage.length) { %>
+        <meta property="og:image" content="<%= resolve_asset_url(page.path, page.thumbnailImage) %>"/>
+        <meta class="swiftype" name="image" data-type="enum" content="<%= resolve_asset_url(page.path, page.thumbnailImage) %>" />
+    <% } %>
+    <% if (page.coverImage && page.coverImage.length) { %>
+        <meta property="og:image" content="<%= resolve_asset_url(page.path, page.coverImage) %>"/>
+        <meta class="swiftype" name="image" data-type="enum" content="<%= resolve_asset_url(page.path, page.coverImage) %>" />
+    <% } %>
+    <% if (photos && photos.length) { %>
+        <% photos.forEach(function(photo) { %>
+            <meta property="og:image" content="<%= photo %>" />
+            <meta class="swiftype" name="image" data-type="enum" content="<%= photo %>" />
+        <% }) %>
+    <% } %>
+    {% endcomment %}
+    <!--STYLES-->
+    <link rel="stylesheet" href="{% static 'css/style-gxrkitjjfqp3e7vq7igezqpodxwvfywjetcxxc5vnnb46t4tlpxn0owp0xfx.min.css' %}">
+    <!--STYLES END-->
+    {% if settings.google_analytics_id %}
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', '{{ settings.google_analytics_id }}']);
+        _gaq.push(['_trackPageview']);
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+    {% endif %}
+    <%- partial('baidu-analytics') %>
+</head>
