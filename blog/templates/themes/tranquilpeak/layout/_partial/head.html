@@ -2,22 +2,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="{{ settings.title }}">
-    <title><%= title %></title>
-    <meta name="author" content="{{ settings.author.name }}">
+    <meta name="generator" content="{{ config.title }}">
+    <title>{% block title %}{{ config.title }}{% endblock %}</title>
+    <meta name="author" content="{{ config.author }}">
 
-    {% if keywords %}
-    <meta name="keywords" content="{{ keywords }}">
+    {% if config.keywords %}
+    <meta name="keywords" content="{{ config.keywords }}{% if page.keywords %},{{ page.keywords }}{% endif %}">
     {% endif %}
-    {% if settings.favicon %}
+    {% if theme.favicon %}
     <link rel="icon" href="/favicon.ico">
     {% endif %}
 
-    {% if settings.feed and settings.feed.path %}
-    <link rel="alternate" type="application/atom+xml" title="RSS" href="{{ settings.feed.path }}">
+    {% if config.feed and config.feed.path %}
+    <link rel="alternate" type="application/atom+xml" title="RSS" href="{{ config.feed.path }}">
     {% endif %}
-    {% if settings.author.picture %}
-    <meta property="og:image" content="{{ settings.author.picture }}"/>
+    {% if config.author.picture %}
+    <meta property="og:image" content="{{ config.author.picture }}"/>
     {% endif %}
     {% comment %}
     <% if (page.thumbnailImage && page.thumbnailImage.length) { %>
@@ -38,10 +38,10 @@
     <!--STYLES-->
     <link rel="stylesheet" href="{% static 'css/style-gxrkitjjfqp3e7vq7igezqpodxwvfywjetcxxc5vnnb46t4tlpxn0owp0xfx.min.css' %}">
     <!--STYLES END-->
-    {% if settings.google_analytics_id %}
+    {% if theme.google_analytics_id %}
     <script type="text/javascript">
         var _gaq = _gaq || [];
-        _gaq.push(['_setAccount', '{{ settings.google_analytics_id }}']);
+        _gaq.push(['_setAccount', '{{ theme.google_analytics_id }}']);
         _gaq.push(['_trackPageview']);
         (function() {
             var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
@@ -50,5 +50,4 @@
         })();
     </script>
     {% endif %}
-    <%- partial('baidu-analytics') %>
 </head>
