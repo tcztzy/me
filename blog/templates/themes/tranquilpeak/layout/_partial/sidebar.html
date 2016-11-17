@@ -1,9 +1,10 @@
+{% load i18n %}
 <nav id="sidebar" data-behavior="{{ theme.sidebar_behavior }}">
     <div class="sidebar-container">
         {% if theme.author.picture %}
         <div class="sidebar-profile">
             <a href="#about">
-                <img class="sidebar-profile-picture" src="{{ theme.author.picture }}" alt="__('global.author_picture')"/>
+                <img class="sidebar-profile-picture" src="{{ theme.author.picture }}" alt="{% trans 'global.author_picture' %}"/>
             </a>
             <h4 class="sidebar-profile-name">{{ config.author }}</h4>
             {% if 'author.bio' %}
@@ -11,18 +12,14 @@
             {% endif %}
         </div>
         {% endif %}
-        {% for i in theme.sidebar %}
+        {% for button_group_name, buttons in theme.sidebar.items %}
         <ul class="sidebar-buttons">
-            {% for n in i %}
+            {% for button_name, button in buttons.items %}
             <li class="sidebar-button">
-                    <a  class="sidebar-button-link {% if (theme.sidebar[i][n].class) { %}{{ n.class }}{% endif %}"
-                        <% if (theme.sidebar[i][n].url.indexOf("/") === 0 && theme.sidebar[i][n].url.length === 1) { %> href="<%- url_for(' ') %>"
-                        <% } else if (theme.sidebar[i][n].url.indexOf("/") === 0) { %> href="<%- url_for(theme.sidebar[i][n].url.substr(1)) %>"
-                        <% } else { %> href="<%- url_for(theme.sidebar[i][n].url) %>"<% } %>
-                    >
+                    <a  class="sidebar-button-link {% if button.class %}{{ button.class }}{% endif %}" href="{% if button.url|slice:':1' == '/' %}{{ request.scheme }}://{{ request.get_host }}{{ button.url }}{% else %}{{ button.url }}{% endif %}">
 
-                    <i class="sidebar-button-icon fa fa-lg <%= 'fa-' + theme.sidebar[i][n].icon %>"></i>
-                    <span class="sidebar-button-desc"><%= __(theme.sidebar[i][n].title) %></span>
+                    <i class="sidebar-button-icon fa fa-lg fa-{{ button.icon }}"></i>
+                    <span class="sidebar-button-desc">{% trans button.title %}</span>
                 </a>
             </li>
             {% endfor %}
