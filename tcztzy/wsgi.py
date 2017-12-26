@@ -1,5 +1,5 @@
 """
-WSGI config for me project.
+WSGI config for tcztzy project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
